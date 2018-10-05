@@ -5,31 +5,36 @@ import heritagesites.models as models
 
 @admin.register(models.CountryArea)
 class CountryAreaAdmin(admin.ModelAdmin):
+	"""
+	New location FK added per Mtg 5 database refactoring.
+	region, sub_region, and intermediate_region FKs removed.
+	"""
 	fields = [
 		'country_area_name',
-		(
-			'region',
-			'sub_region',
-			'intermediate_region'
-		),
-		(
-			'm49_code',
-			'iso_alpha3_code',
-		),
+		# (
+		#	'region',
+		#	'sub_region',
+		#	'intermediate_region'
+		# ),
+		'iso_alpha3_code',
+		'm49_code',
+		'location',
 		'dev_status'
 	]
 
 	list_display = [
 		'country_area_name',
-		'region',
-		'sub_region',
-		'intermediate_region',
-		'm49_code',
+		# 'region',
+		# 'sub_region',
+		# 'intermediate_region',
 		'iso_alpha3_code',
+		'm49_code',
+		'location',
 		'dev_status'
 	]
 
-	list_filter = ['region', 'sub_region', 'intermediate_region', 'dev_status']
+	list_filter = ['dev_status']
+	# list_filter = ['region', 'sub_region', 'intermediate_region', 'dev_status']
 # admin.site.register(models.CountryArea)
 
 
@@ -119,11 +124,34 @@ class IntermediateRegionAdmin(admin.ModelAdmin):
 # admin.site.register(models.IntermediateRegion)
 
 
+@admin.register(models.Location)
+class LocationAdmin(admin.ModelAdmin):
+	"""
+	New class added per Mtg 5 database refactoring.
+	"""
+	fields = ['planet', 'region', 'sub_region', 'intermediate_region']
+	list_display = ['planet', 'region', 'sub_region', 'intermediate_region']
+	ordering = ['planet', 'region', 'sub_region', 'intermediate_region']
+
+
+@admin.register(models.Planet)
+class PlanetAdmin(admin.ModelAdmin):
+	"""
+	New class added as a result of Mtg 5 database refactoring.
+	"""
+	fields = ['planet_name', 'unsd_name']
+	list_display = ['planet_name', 'unsd_name']
+	ordering = ['planet_name', 'unsd_name']
+
+
 @admin.register(models.Region)
 class RegionAdmin(admin.ModelAdmin):
-	fields = ['region_name']
-	list_display = ['region_name']
-	ordering = ['region_name']
+	"""
+	New planet FK added per Mtg 5 database refactoring.
+	"""
+	fields = ['region_name', 'planet']
+	list_display = ['region_name', 'planet']
+	ordering = ['region_name', 'planet']
 # admin.site.register(models.Region)
 
 
