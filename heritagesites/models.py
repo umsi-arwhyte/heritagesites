@@ -13,13 +13,9 @@ from django.db import models
 class CountryArea(models.Model):
     country_area_id = models.AutoField(primary_key=True)
     country_area_name = models.CharField(unique=True, max_length=100)
-    # region = models.ForeignKey('Region', models.DO_NOTHING, blank=True, null=True)
-    # sub_region = models.ForeignKey('SubRegion', models.DO_NOTHING, blank=True, null=True)
-    # intermediate_region = models.ForeignKey('IntermediateRegion', models.DO_NOTHING, blank=True,
-    #  null=True)
     m49_code = models.SmallIntegerField()
     iso_alpha3_code = models.CharField(max_length=3)
-    location = models.ForeignKey('Location', models.DO_NOTHING, blank=True, null=True)
+    location = models.ForeignKey('Location', models.DO_NOTHING)
     dev_status = models.ForeignKey('DevStatus', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -235,8 +231,6 @@ class Location(models.Model):
             return self.planet.unsd_name
         else:
             return 'error'
-
-        # TODO build a string via reverse checks like above (p:r:sr:ir)
 
         ''' Works but ugly
         return '{}  {}  {}  {}'.format(
