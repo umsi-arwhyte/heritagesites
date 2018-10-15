@@ -1,0 +1,13 @@
+{% extends 'heritagesites/base.html' %}
+
+{% block content %}
+
+<h2>UNSD M49 Regions</h2>
+
+<ul>
+  {% for region in regions %}
+  <li>{{ region.region_name }}</li>
+  {% endfor %}
+</ul>
+
+{% endblock content %}}

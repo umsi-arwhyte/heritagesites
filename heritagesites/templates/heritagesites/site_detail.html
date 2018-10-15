@@ -1,0 +1,76 @@
+{% extends 'heritagesites/base.html' %}
+
+{% block content %}
+
+<!-- safe filter on for raw HTML stored in database -->
+
+<h2>{{site.site_name | safe}}</h2>
+
+{% if site.heritage_site_category.category_name %}
+<div class="row">
+  <div class="col-sm-2">
+    <p>Category</p>
+  </div>
+  <div class="col-sm-10">
+    {{site.heritage_site_category.category_name}}
+  </div>
+</div>
+{% endif %}
+
+{% if site.description %}
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Description</p>
+    </div>
+    <div class="col-sm-10">
+      {{site.description | safe}}
+    </div>
+  </div>
+{% endif %}
+
+{% if site.justification %}
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Justification</p>
+    </div>
+    <div class="col-sm-10">
+      {{site.justification | safe}}
+    </div>
+  </div>
+{% endif %}
+
+{% if site.date_inscribed %}
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Date inscribed</p>
+    </div>
+    <div class="col-sm-10">
+      {{site.date_inscribed}}
+    </div>
+  </div>
+{% endif %}
+
+{% if site.latitude and site.longitude %}
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Geo coordinates</p>
+    </div>
+    <div class="col-sm-4">
+      {{site.latitude}}, {{site.longitude}} (<span style="font-style:italic">lat</span>.,
+      <span style="font-style:italic">long</span>.)
+    </div>
+  </div>
+{% endif %}
+
+{% if site.area_hectares %}
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Area</p>
+    </div>
+    <div class="col-sm-10">
+      {{site.area_hectares}} hectares
+    </div>
+  </div>
+{% endif %}
+
+{% endblock content %}}

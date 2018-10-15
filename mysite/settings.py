@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -27,8 +26,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
+
+# WARNING: test_without_migrations app must appear before any other apps
+# in INSTALLED_APPS that provide a custom test management command.
+# See https://pypi.org/project/django-test-without-migrations/
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'heritagesites.apps.HeritagesitesConfig',
+    'test_without_migrations',
 ]
 
 MIDDLEWARE = [
@@ -68,8 +71,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+# Add a custom test runner for converting unmanaged models to managed before
+# running a test and then revert the effect afterwards.
 
+TEST_RUNNER = 'heritagesites.utils.UnManagedModelTestRunner'
+
+# test_without_migration setting that ensures you don’t lose any additional
+# functionality provided by your custom test management command.
+
+# TEST_WITHOUT_MIGRATIONS_COMMAND = 'django_nose.management.commands.test.Command'
+
+WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -84,7 +96,6 @@ DATABASES = {
         },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -104,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -118,7 +128,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
