@@ -11,11 +11,6 @@ class CountryAreaAdmin(admin.ModelAdmin):
 	"""
 	fields = [
 		'country_area_name',
-		# (
-		#	'region',
-		#	'sub_region',
-		#	'intermediate_region'
-		# ),
 		'iso_alpha3_code',
 		'm49_code',
 		'location',
@@ -24,9 +19,6 @@ class CountryAreaAdmin(admin.ModelAdmin):
 
 	list_display = [
 		'country_area_name',
-		# 'region',
-		# 'sub_region',
-		# 'intermediate_region',
 		'iso_alpha3_code',
 		'm49_code',
 		'location',
