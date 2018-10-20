@@ -76,7 +76,7 @@ class RegionListViewTest(TestCase):
 	def test_view_template(self):
 		response = self.client.get(reverse('regions'))
 		self.assertEqual(response.status_code, 200)
-		self.assertTemplateUsed(response, 'heritagesites/region.html')
+		self.assertTemplateUsed(response, 'heritagesites/location.html')
 
 
 class SiteModelTest(TestCase):

@@ -9,8 +9,7 @@ from . import views
 urlpatterns = [
     re_path(r'^$', views.HomePageView.as_view(), name='home'),
     re_path(r'^about/', views.AboutPageView.as_view(), name='about'),
-    re_path(r'^regions/', views.RegionListView.as_view(), name='regions'),
-    re_path(r'^regions/(?P<pk>\d+)/$', views.RegionDetailView.as_view(), name='region_detail'),
+    re_path(r'^locations/', views.LocationListView.as_view(), name='locations')
     re_path(r'^sites/', views.SiteListView.as_view(), name='sites'),
     re_path(r'^sites/(?P<pk>\d+)/$', views.SiteDetailView.as_view(), name='site_detail'),
 ]
@@ -20,8 +19,8 @@ urlpatterns = [
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
     path('about/', views.AboutPageView.as_view(), name='about'),
-    path('regions/', views.RegionListView.as_view(), name='regions'),
-    path('regions/<int:pk>/', views.RegionDetailView.as_view(), name='region_detail'),
+    path('locations/', views.LocationListView.as_view(), name='locations'),
+    path('oceania/', views.OceaniaListView.as_view(), name='oceania'),
     path('sites/', views.SiteListView.as_view(), name='sites'),
     path('sites/<int:pk>/', views.SiteDetailView.as_view(), name='site_detail'),
 ]

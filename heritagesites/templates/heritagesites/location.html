@@ -1,0 +1,51 @@
+{% extends 'heritagesites/base.html' %}
+
+{% block content %}
+
+<article>
+  <header>
+    <h2>UNSD Regions</h2>
+  </header>
+
+  <!-- Grid -->
+
+  {% if locations %}
+    <div class="row">
+      <div class="col-sm-4">
+        <h3>Region</h3>
+      </div>
+      <div class="col-sm-4">
+        <h3>Subregion</h3>
+      </div>
+      <div class="col-sm-4">
+        <h3>Intermediate Region</h3>
+      </div>
+    </div>
+
+    {% for location in locations %}
+      <div class="row">
+        <div class="col-sm-4">
+          {% if location.region.region_name %}
+            <p>{{ location.region.region_name }}</p>
+          {% endif %}
+        </div>
+        <div class="col-sm-4">
+          {% if location.sub_region.sub_region_name %}
+            <p>{{ location.sub_region.sub_region_name }}</p>
+          {% endif %}
+        </div>
+        <div class="col-sm-4">
+          {% if location.intermediate_region.intermediate_region_name %}
+            <p>{{ location.intermediate_region.intermediate_region_name }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+  <p>No Heritage regions are available to view.</p>
+  {% endif %}
+
+  <p>location count: {{ locations.count }}</p>
+</article>
+
+{% endblock content %}
