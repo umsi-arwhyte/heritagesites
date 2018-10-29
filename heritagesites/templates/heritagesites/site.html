@@ -49,16 +49,14 @@
   </nav>
 
   {% if sites %}
-
-  <ul>
-    {% for site in sites %}
-
-    <!-- safe filter on for raw HTML stored in database -->
-    <li><a href="{% url 'site_detail' site.pk %}">{{ site.site_name | safe }}</a></li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>No Heritage Sites are available to view.</p>
+    <ul>
+      {% for site in sites %}
+      <!-- safe filter on for raw HTML stored in database -->
+      <li><a href="{% url 'site_detail' site.pk %}">{{ site.site_name | safe }}</a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No Heritage Sites are available to view.</p>
   {% endif %}
 
   <p>page count: {{ sites.count }}</p>

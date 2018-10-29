@@ -1,0 +1,99 @@
+{% extends 'heritagesites/base.html' %}
+
+{% block content %}
+<h2>{{ country.country_area_name }}</h2>
+
+<!-- TODO: special case Antarctica -->
+
+{% if country.country_area_name != 'Antarctica' %}
+
+  {% if country.m49_code %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>M49 code</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ country.m49_code }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if country.iso_alpha3_code %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>ISO Alpha 3 code</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ country.iso_alpha3_code }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if country.location.region.region_name %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Region</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ country.location.region.region_name }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if country.location.sub_region.sub_region_name %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Subregion</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ country.location.sub_region.sub_region_name }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if country.location.intermediate_region.intermediate_region_name %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Intermediate region</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ country.location.intermediate_region.intermediate_region_name }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if country.dev_status.dev_status_name %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Development status</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ country.dev_status.dev_status_name }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+{% else %}
+
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Region</p>
+    </div>
+    <div class="col-sm-10">
+      <p>None
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Note</p>
+    </div>
+    <div class="col-sm-10">
+      <p>Antarctica is excluded from the UNSD regional, subregion and intermediate region scheme.</p>
+    </div>
+  </div>
+
+{% endif %}
+
+{% endblock content %}

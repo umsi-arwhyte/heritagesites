@@ -1,76 +1,144 @@
 {% extends 'heritagesites/base.html' %}
 
-{% block content %}
+{% load heritagesites_extras %}
 
 <!-- safe filter on for raw HTML stored in database -->
+{% block content %}
+  <h2>{{ site.site_name | safe }}</h2>
 
-<h2>{{site.site_name | safe}}</h2>
+  {% if site.country_area.all %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Region</p>
+      </div>
+      <div class="col-sm-10">
+        {% spaceless %}
+        <p>
+          {% for country_area in site.country_area.all %}
+            {% if country_area.location.intermediate_region %}
+              {% ifchanged country_area.location.intermediate_region.intermediate_region_id %}
+                {% if forloop.first %}
+                  {{ country_area.location.intermediate_region.intermediate_region_name.strip }}
+                {% else %}
+                  {{ country_area.location.intermediate_region.intermediate_region_name.strip|add_leading_comma }}
+                {% endif %}
+              {% endifchanged %}
+            {% elif country_area.location.sub_region %}
+              {% ifchanged country_area.location.sub_region.sub_region_id %}
+                {% if forloop.first %}
+                  {{ country_area.location.sub_region.sub_region_name.strip }}
+                {% else %}
+                  {{ country_area.location.sub_region.sub_region_name.strip|add_leading_comma }}
+                {% endif %}
+              {% endifchanged %}
+            {% elif country_area.location.region %}
+              {% ifchanged country_area.location.region.region_id %}
+                {% if forloop.first %}
+                  {{ country_area.location.region.region_name.strip }}
+                {% else %}
+                  {{ country_area.location.region.region_name.strip|add_leading_comma }}
+                {% endif %}
+              {% endifchanged %}
+            {% else %}
+              {% ifchanged country_area.location.planet_id %}
+                {{ country_area.location.planet.unsd_name.strip }}
+              {% endifchanged %}
+            {% endif %}
+          {% endfor %}
+        </p>
+        {% endspaceless %}
+      </div>
+    </div>
 
-{% if site.heritage_site_category.category_name %}
-<div class="row">
-  <div class="col-sm-2">
-    <p>Category</p>
-  </div>
-  <div class="col-sm-10">
-    {{site.heritage_site_category.category_name}}
-  </div>
-</div>
-{% endif %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Country / Area</p>
+      </div>
+      <div class="col-sm-10">
+        {% spaceless %}
+        <p>
+          {% for country_area in site.country_area.all %}
+            {% if forloop.last %}
+              {{ country_area.country_area_name.strip }} ({{ country_area.iso_alpha3_code.strip }})
+            {% else %}
+              {{ country_area.country_area_name.strip }} {{ country_area.iso_alpha3_code.strip|add_parens|add_trailing_comma }}
+            {% endif %}
+          {% endfor %}
+        </p>
+        {% endspaceless %}
+      </div>
+    </div>
 
-{% if site.description %}
-  <div class="row">
-    <div class="col-sm-2">
-      <p>Description</p>
-    </div>
-    <div class="col-sm-10">
-      {{site.description | safe}}
-    </div>
-  </div>
-{% endif %}
+  {% endif %}
 
-{% if site.justification %}
-  <div class="row">
-    <div class="col-sm-2">
-      <p>Justification</p>
+  {% if site.heritage_site_category.category_name %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Category</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ site.heritage_site_category.category_name }}</p>
+      </div>
     </div>
-    <div class="col-sm-10">
-      {{site.justification | safe}}
-    </div>
-  </div>
-{% endif %}
+  {% endif %}
 
-{% if site.date_inscribed %}
-  <div class="row">
-    <div class="col-sm-2">
-      <p>Date inscribed</p>
+  <!-- SHOW STUDENTS THAT TEMPLATE NEEDS FIXING: EXTRA <p> -->
+  {% if site.description %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Description</p>
+      </div>
+      <div class="col-sm-10">
+        {{ site.description | safe }}
+        <!-- <p>{{ site.description | safe }}</p> -->
+      </div>
     </div>
-    <div class="col-sm-10">
-      {{site.date_inscribed}}
-    </div>
-  </div>
-{% endif %}
+  {% endif %}
 
-{% if site.latitude and site.longitude %}
-  <div class="row">
-    <div class="col-sm-2">
-      <p>Geo coordinates</p>
+  <!-- SHOW STUDENTS THAT TEMPLATE NEEDS FIXING: EXTRA <p> -->
+  {% if site.justification %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Justification</p>
+      </div>
+      <div class="col-sm-10">
+        {{ site.justification | safe }}
+        <!-- <p>{{ site.justification | safe }}</p> -->
+      </div>
     </div>
-    <div class="col-sm-4">
-      {{site.latitude}}, {{site.longitude}} (<span style="font-style:italic">lat</span>.,
-      <span style="font-style:italic">long</span>.)
-    </div>
-  </div>
-{% endif %}
+  {% endif %}
 
-{% if site.area_hectares %}
-  <div class="row">
-    <div class="col-sm-2">
-      <p>Area</p>
+  {% if site.date_inscribed %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Date inscribed</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ site.date_inscribed }}</p>
+      </div>
     </div>
-    <div class="col-sm-10">
-      {{site.area_hectares}} hectares
-    </div>
-  </div>
-{% endif %}
+  {% endif %}
 
-{% endblock content %}}
+  {% if site.latitude and site.longitude %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Geo coordinates</p>
+      </div>
+      <div class="col-sm-4">
+        <p>{{ site.latitude }}, {{ site.longitude }} (<span style="font-style:italic">lat</span>.,
+          <span style="font-style:italic">long</span>.)</p>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if site.area_hectares %}
+    <div class="row">
+      <div class="col-sm-2">
+        <p>Area</p>
+      </div>
+      <div class="col-sm-10">
+        <p>{{ site.area_hectares }} hectares</p>
+      </div>
+    </div>
+  {% endif %}
+{% endblock content %}
