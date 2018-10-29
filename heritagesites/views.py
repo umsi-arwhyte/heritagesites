@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import generic
 from django.db.models import F, Q
 
-from .models import HeritageSite, Location, Region
+from .models import CountryArea, HeritageSite, Location, Region
 
 
 def index(request):
@@ -12,6 +12,24 @@ def index(request):
 
 class AboutPageView(generic.TemplateView):
 	template_name = 'heritagesites/about.html'
+
+
+class CountryAreaDetailView(generic.DetailView):
+	model = CountryArea
+	context_object_name = 'country'
+	template_name = 'heritagesites/country_area_detail.html'
+
+
+class CountryAreaListView(generic.ListView):
+	model = CountryArea
+	context_object_name = 'countries'
+	template_name = 'heritagesites/country_area.html'
+	paginate_by = 20
+
+	def get_queryset(self):
+		return CountryArea.objects\
+			.select_related('dev_status', 'location')\
+			.order_by('country_area_name')
 
 
 class HomePageView(generic.TemplateView):
@@ -46,6 +64,13 @@ class OceaniaListView(generic.ListView):
 		              'country_area__country_area_name',
 		              'site_name')
 
+
+class SiteDetailView(generic.DetailView):
+	model = HeritageSite
+	context_object_name = 'site'
+	template_name = 'heritagesites/site_detail.html'
+
+
 class SiteListView(generic.ListView):
 	model = HeritageSite
 	context_object_name = 'sites'
@@ -56,9 +81,3 @@ class SiteListView(generic.ListView):
 		return HeritageSite.objects\
 			.select_related('heritage_site_category')\
 			.order_by('site_name')
-
-
-class SiteDetailView(generic.DetailView):
-	model = HeritageSite
-	context_object_name = 'site'
-	template_name = 'heritagesites/site_detail.html'
