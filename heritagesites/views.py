@@ -1,11 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
-from django.db.models import F, Q
+from django.utils.decorators import method_decorator
 
 from .models import CountryArea, HeritageSite, Location, Region
 
 
+@login_required()
 def index(request):
 	return HttpResponse("Hello, world. You're at the UNESCO Heritage Sites index page.")
 
@@ -14,17 +16,29 @@ class AboutPageView(generic.TemplateView):
 	template_name = 'heritagesites/about.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class CountryAreaDetailView(generic.DetailView):
 	model = CountryArea
 	context_object_name = 'country'
 	template_name = 'heritagesites/country_area_detail.html'
 
+	def dispatch(self, *args, **kwargs):
+		return super().dispatch(*args, **kwargs)
 
+	def get_object(self):
+		country_area = super().get_object()
+		return country_area
+
+
+@method_decorator(login_required, name='dispatch')
 class CountryAreaListView(generic.ListView):
 	model = CountryArea
 	context_object_name = 'countries'
 	template_name = 'heritagesites/country_area.html'
 	paginate_by = 20
+
+	def dispatch(self, *args, **kwargs):
+		return super().dispatch(*args, **kwargs)
 
 	def get_queryset(self):
 		return CountryArea.objects\
@@ -49,7 +63,6 @@ class LocationListView(generic.ListView):
 		              'intermediate_region__intermediate_region_name'
 		              )
 
-
 class OceaniaListView(generic.ListView):
 	model = HeritageSite
 	context_object_name = 'sites'
@@ -65,10 +78,24 @@ class OceaniaListView(generic.ListView):
 		              'site_name')
 
 
+class OceaniaDetailView(generic.DetailView):
+	model = HeritageSite
+	context_object_name = 'site'
+	template_name='heritagesites/oceania_detail.html'
+
+	def get_object(self):
+		site = super().get_object()
+		return site
+
+
 class SiteDetailView(generic.DetailView):
 	model = HeritageSite
 	context_object_name = 'site'
 	template_name = 'heritagesites/site_detail.html'
+
+	def get_object(self):
+		site = super().get_object()
+		return site
 
 
 class SiteListView(generic.ListView):
