@@ -12,6 +12,9 @@ local_settings.py
 db.sqlite3
 media
 
+### Django secrets ###
+**/secrets.py
+
 ### Intellij ###
 .idea/
 *.iml
