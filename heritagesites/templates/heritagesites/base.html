@@ -24,12 +24,12 @@
 
       <a class="navbar-brand" href="{% url 'home' %}">SI664 Heritage Sites</a>
 
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About</a>
+          <a class="nav-link" href="{% url 'about' %}">about</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'site' %}">Sites</a>
+          <a class="nav-link" href="{% url 'site' %}">sites</a>
         </li>
         <!--
         <li class="nav-item">
@@ -37,7 +37,13 @@
         </li>
         -->
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'country_area' %}">Countries/Areas</a>
+          <a class="nav-link" href="{% url 'country_area' %}">countries/areas</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">login</a>
         </li>
       </ul>
     </nav>
