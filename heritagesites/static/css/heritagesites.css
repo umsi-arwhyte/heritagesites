@@ -26,12 +26,12 @@ nav {
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text {
     color: rgba(255,255,255,.8);
-    padding: 0.8rem 1rem;
+    /* padding: 0.8rem 1rem; */
 }
 /* change the link color */
 .navbar-custom .navbar-nav .nav-link {
     color: rgba(255,255,255,.5);
-    padding: 1rem 1rem;
+    /* padding: 1rem 1rem; */
 }
 /* change the color of active or hovered links */
 .navbar-custom .nav-item.active .nav-link,
@@ -57,7 +57,7 @@ nav {
 .pagination > li.page-item.active {
     background-color: #E85A4F;
     color: #EAE7DC;
-    padding: 0.25rem 0.75rem;
+    /* padding: 0.25rem 0.75rem; */
 }
 
 /*
@@ -79,7 +79,7 @@ main {
 
 footer {
     background-color: #8E8D8A;
-    padding: 0.8rem 1rem;
+    /* padding: 0.8rem 1rem; */
 }
 
 footer a:link {
@@ -120,8 +120,8 @@ footer p {
 h1, h2, h3, h4 {
     color: #E85A4F;
     /* margin-top: 1em; */
-    margin-bottom: 0.5rem;
-    text-align: left;
+    /* margin-bottom: 0.5rem; */
+    /* text-align: left; */
 }
 
 /*

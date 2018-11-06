@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
-from .models import HeritageSite, HeritageSiteCategory, Planet, Region
+from heritagesites.models import HeritageSite, HeritageSiteCategory, Planet, Region
 
 
 class IndexViewTest(TestCase):

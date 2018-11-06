@@ -6,7 +6,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="description" content="UMSI SI664 Django heritagesites app">
-    <meta name="keywords" content="UMSI, SI664, UNESCO, UNSD, Python, MySQL, Django, Bootstrap">
+    <meta name="keywords" content="UMSI,SI664,UNESCO,UNSD,Python,MySQL,Django,Bootstrap">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -20,43 +20,42 @@
   <body>
 
     <!-- A grey horizontal navbar that becomes vertical on small screens -->
-    <nav class="navbar navbar-expand-sm navbar-dark navbar-custom p-0">
+    <nav class="navbar navbar-expand-sm navbar-dark navbar-custom sticky-top px-4 py-2">
 
-      <a class="navbar-brand" href="{% url 'home' %}">SI664 Heritage Sites</a>
+      <div class="row">
+        <a class="navbar-brand" href="{% url 'home' %}">SI664 Heritage Sites</a>
 
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">about</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'site' %}">sites</a>
-        </li>
-        <!--
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'oceania' %}">Oceania</a>
-        </li>
-        -->
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'country_area' %}">countries/areas</a>
-        </li>
-      </ul>
-
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">login</a>
-        </li>
-      </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">about</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'site' %}">sites</a>
+          </li>
+          <!--
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'oceania' %}">Oceania</a>
+          </li>
+          -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'country_area' %}">countries/areas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">login</a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
     <main>
-      <div class="container-fluid">
+      <div class="container-fluid px-4 py-3">
         {% block content %}
 
         {% endblock content %}
       </div>
     </main>
 
-    <footer>
+    <footer class="px-4 py-2">
       <p>Copyright &copy; 2018 <a href="mailto:arwhyte@umich.edu">Anthony Whyte</a></p>
     </footer>
 
