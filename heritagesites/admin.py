@@ -87,7 +87,8 @@ class HeritageSiteAdmin(admin.ModelAdmin):
 		'date_inscribed',
 		'area_hectares',
 		'heritage_site_category',
-		'country_area_display'
+		'country_area_names'
+		#'country_area_display'
 	)
 
 	list_filter = (

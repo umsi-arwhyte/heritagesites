@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import F
 from django.shortcuts import redirect, render
 from django.views import generic
 from django.urls import reverse_lazy
@@ -58,10 +59,11 @@ class LocationListView(generic.ListView):
 	def get_queryset(self):
 		return Location.objects \
 			.select_related('region', 'sub_region', 'intermediate_region') \
-			.order_by('region__region_name',
-		              'sub_region__sub_region_name',
-		              'intermediate_region__intermediate_region_name'
-		              )
+			.order_by(
+				'region__region_name',
+				'sub_region__sub_region_name',
+				'intermediate_region__intermediate_region_name'
+			)
 
 
 class OceaniaListView(generic.ListView):
@@ -74,9 +76,11 @@ class OceaniaListView(generic.ListView):
 		return HeritageSite.objects \
 			.select_related('heritage_site_category') \
 			.filter(country_area__location__region__region_id=5) \
-			.order_by('country_area__location__sub_region__sub_region_name',
-		              'country_area__country_area_name',
-		              'site_name')
+			.order_by(
+				'country_area__location__sub_region__sub_region_name',
+				'country_area__country_area_name',
+				'site_name'
+			)
 
 
 class OceaniaDetailView(generic.DetailView):
@@ -165,8 +169,7 @@ class SiteDetailView(generic.DetailView):
 	template_name = 'heritagesites/site_detail.html'
 
 	def get_object(self):
-		site = super().get_object()
-		return site
+		return super().get_object()
 
 
 class SiteListView(generic.ListView):

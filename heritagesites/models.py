@@ -77,12 +77,96 @@ class HeritageSite(models.Model):
 		# return reverse('site_detail', args=[str(self.id)])
 		return reverse('site_detail', kwargs={'pk': self.pk})
 
+	@property
+	def region_names(self):
+		sort_order = ['location__region__region_name']
+		countries = self.country_area.all().order_by(*sort_order)
+		# countries_sorted = sorted(countries, key=lambda o: o.location.region.region_name)
+
+		names = []
+		for country in countries:
+			region = country.location.region
+			if region is None:
+				continue
+			name = region.region_name
+			if name not in names:
+				names.append(name)
+
+		return ', '.join(names)
+
+	@property
+	def sub_region_names(self):
+		sort_order = [
+			'location__region__region_name',
+			'location__sub_region__sub_region_name'
+		]
+		countries = self.country_area.all().order_by(*sort_order)
+
+		names = []
+		for country in countries:
+			sub_region = country.location.sub_region
+			if sub_region is None:
+				continue
+			name = sub_region.sub_region_name
+			if name not in names:
+				names.append(name)
+
+		return ', '.join(names)
+
+	@property
+	def intermediate_region_names(self):
+		sort_order = [
+			'location__region__region_name',
+			'location__sub_region__sub_region_name',
+			'location__intermediate_region__intermediate_region_name'
+		]
+		countries = self.country_area.all().order_by(*sort_order)
+
+		names = []
+		for country in countries:
+			intermediate_region = country.location.intermediate_region
+			if intermediate_region is None:
+				continue
+
+			name = intermediate_region.intermediate_region_name
+			if name not in names:
+				names.append(name)
+
+		return ', '.join(names)
+
+	@property
+	def country_area_names(self):
+		sort_order = [
+			'location__region__region_name',
+			'location__sub_region__sub_region_name',
+			'location__intermediate_region__intermediate_region_name',
+			'country_area_name'
+		]
+		countries = self.country_area.all().order_by(*sort_order)
+
+		names = []
+		for country in countries:
+			name = country.country_area_name
+			if name is None:
+				continue
+			iso_code = country.iso_alpha3_code
+
+			name_and_code = ''.join([name, ' (', iso_code, ')'])
+			if name_and_code not in names:
+				names.append(name_and_code)
+
+		return ', '.join(names)
+
+	# Admin site column header (Throws error when @property decorator used
+	# country_area_names.short_description = 'Country/Area'
+
+	'''
 	def country_area_display(self):
 		"""Create a string for country_area. This is required to display in the Admin view."""
 		return ', '.join(
 			country_area.country_area_name for country_area in self.country_area.all()[:25])
-
 	country_area_display.short_description = 'Country or Area'
+	'''
 
 
 class HeritageSiteCategory(models.Model):
