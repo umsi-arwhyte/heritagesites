@@ -6,8 +6,11 @@ from django.shortcuts import redirect, render
 from django.views import generic
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from heritagesites.forms import HeritageSiteForm
+from heritagesites.filters import HeritageSiteFilter
+from heritagesites.forms import HeritageSiteForm, SearchForm
 from heritagesites.models import CountryArea, HeritageSite, HeritageSiteJurisdiction, Location
+
+from django_filters.views import FilterView
 
 
 @login_required()
@@ -170,6 +173,13 @@ class SiteDetailView(generic.DetailView):
 
 	def get_object(self):
 		return super().get_object()
+
+
+class SiteFilterView(FilterView):
+	# form_class = SearchForm
+	filterset_class = HeritageSiteFilter
+	template_name = 'heritagesites/site_filter.html'
+	# paginate_by = 50
 
 
 class SiteListView(generic.ListView):

@@ -12,5 +12,22 @@ class HeritageSiteForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.helper = FormHelper()
-		self.helper.form_method = 'post'
-		self.helper.add_input(Submit('submit', 'submit'))
+		self.helper.form_method = 'POST'
+		self.helper.add_input(Submit('submit', 'Submit'))
+
+
+class SearchForm(forms.ModelForm):
+	date_inscribed = forms.IntegerField(
+		label='Date Inscribed',
+		required=False
+	)
+
+	class Meta:
+		model = HeritageSite
+		fields = ['date_inscribed']
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.helper = FormHelper()
+		self.helper.form_method = 'GET'
+		self.helper.add_input(Submit('submit', 'Search'))

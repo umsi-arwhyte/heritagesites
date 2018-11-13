@@ -23,9 +23,10 @@ urlpatterns = [
 	path('countries/<int:pk>/', views.CountryAreaDetailView.as_view(), name='country_area_detail'),
 	path('locations/', views.LocationListView.as_view(), name='location'),
 	path('oceania/', views.OceaniaListView.as_view(), name='oceania'),
+	path('search/', views.SiteFilterView.as_view(), name='search'),
 	path('sites/', views.SiteListView.as_view(), name='site'),
 	path('sites/new/', views.SiteCreateView.as_view(), name='site_new'),
 	path('sites/<int:pk>/', views.SiteDetailView.as_view(), name='site_detail'),
 	path('sites/<int:pk>/delete/', views.SiteDeleteView.as_view(), name='site_delete'),
-	path('sites/<int:pk>/update/', views.SiteUpdateView.as_view(), name='site_update')
+	path('sites/<int:pk>/update/', views.SiteUpdateView.as_view(), name='site_update'),
 ]

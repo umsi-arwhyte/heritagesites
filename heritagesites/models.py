@@ -79,8 +79,16 @@ class HeritageSite(models.Model):
 
 	@property
 	def region_names(self):
+		"""
+		Returns a list of UNSD regions (names only) associated with a Heritage Site.
+		Note that not all Heritage Sites are associated with a region. In such cases the
+		Queryset will return as <QuerySet [None]> and the list will need to be checked for
+		None or a TypeError (sequence item 0: expected str instance, NoneType found) runtime
+		error will be thrown.
+		:return: string
+		"""
 		sort_order = ['location__region__region_name']
-		countries = self.country_area.all().order_by(*sort_order)
+		countries = self.country_area.select_related('location').order_by(*sort_order)
 		# countries_sorted = sorted(countries, key=lambda o: o.location.region.region_name)
 
 		names = []
@@ -95,12 +103,24 @@ class HeritageSite(models.Model):
 		return ', '.join(names)
 
 	@property
-	def sub_region_names(self):
-		sort_order = [
-			'location__region__region_name',
-			'location__sub_region__sub_region_name'
-		]
-		countries = self.country_area.all().order_by(*sort_order)
+	def sub_region_names(self, sort_order='sub_region_name'):
+		"""
+		Returns a list of UNSD subregions (names only) associated with a Heritage Site.
+		Note that not all Heritage Sites are associated with a subregion. In such cases the
+		Queryset will return as <QuerySet [None]> and the list will need to be checked for
+		None or a TypeError (sequence item 0: expected str instance, NoneType found) runtime
+		error will be thrown.
+		:return: string
+		"""
+		if sort_order == 'regions':
+			sort_order = [
+				'location__region__region_name',
+				'location__sub_region__sub_region_name'
+			]
+		else:
+			sort_order = ['location__sub_region__sub_region_name']
+
+		countries = self.country_area.select_related('location').order_by(*sort_order)
 
 		names = []
 		for country in countries:
@@ -114,13 +134,25 @@ class HeritageSite(models.Model):
 		return ', '.join(names)
 
 	@property
-	def intermediate_region_names(self):
-		sort_order = [
-			'location__region__region_name',
-			'location__sub_region__sub_region_name',
-			'location__intermediate_region__intermediate_region_name'
-		]
-		countries = self.country_area.all().order_by(*sort_order)
+	def intermediate_region_names(self, sort_order='intermediate_region_name'):
+		"""
+		Returns a list of UNSD intermediate regions (names only) associated with a Heritage Site.
+		Note that not all Heritage Sites are associated with an intermediate region. In such
+		cases the Queryset will return as <QuerySet [None]> and the list will need to be
+		checked for None or a TypeError (sequence item 0: expected str instance, NoneType found)
+		runtime error will be thrown.
+		:return: string
+		"""
+		if sort_order == 'regions':
+			sort_order = [
+				'location__region__region_name',
+				'location__sub_region__sub_region_name',
+				'location__intermediate_region__intermediate_region_name'
+			]
+		else:
+			sort_order = ['location__intermediate_region__intermediate_region_name']
+
+		countries = self.country_area.select_related('location').order_by(*sort_order)
 
 		names = []
 		for country in countries:
@@ -135,14 +167,26 @@ class HeritageSite(models.Model):
 		return ', '.join(names)
 
 	@property
-	def country_area_names(self):
-		sort_order = [
-			'location__region__region_name',
-			'location__sub_region__sub_region_name',
-			'location__intermediate_region__intermediate_region_name',
-			'country_area_name'
-		]
-		countries = self.country_area.all().order_by(*sort_order)
+	def country_area_names(self, sort_order='country_area_name'):
+		"""
+		Returns a list of UNSD countries/areas (names only) associated with a Heritage Site.
+		Note that not all Heritage Sites are associated with a country/area (e.g., Old City
+		Walls of Jerusalem). In such cases the Queryset will return as <QuerySet [None]> and the
+		list will need to be checked for None or a TypeError (sequence item 0: expected str
+		instance, NoneType found) runtime error will be thrown.
+		:return: string
+		"""
+		if sort_order == 'regions':
+			sort_order = [
+				'location__region__region_name',
+				'location__sub_region__sub_region_name',
+				'location__intermediate_region__intermediate_region_name',
+				'country_area_name'
+			]
+		else:
+			sort_order = ['country_area_name']
+
+		countries = self.country_area.select_related('location').order_by(*sort_order)
 
 		names = []
 		for country in countries:
@@ -226,8 +270,12 @@ class Location(models.Model):
 	planet = models.ForeignKey('Planet', models.DO_NOTHING)
 	region = models.ForeignKey('Region', models.DO_NOTHING, blank=True, null=True)
 	sub_region = models.ForeignKey('SubRegion', models.DO_NOTHING, blank=True, null=True)
-	intermediate_region = models.ForeignKey('IntermediateRegion', models.DO_NOTHING, blank=True,
-	                                        null=True)
+	intermediate_region = models.ForeignKey(
+		'IntermediateRegion',
+		models.DO_NOTHING,
+		blank=True,
+		null=True
+	)
 
 	class Meta:
 		managed = False
