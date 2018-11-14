@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'heritagesites.apps.HeritagesitesConfig',
+    'crispy_forms',
+    'django_filters',
     'social_django',
     'test_without_migrations',
 ]
@@ -75,6 +77,9 @@ TEMPLATES = [
         },
     },
 ]
+
+# django-crispy-forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Add a custom test runner for converting unmanaged models to managed before
 # running a test and then revert the effect afterwards.

@@ -1,0 +1,84 @@
+{% extends 'heritagesites/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <header>
+    <h2>New Site</h2>
+  </header>
+
+  <!--
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form | crispy }}
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+  -->
+
+  <!-- novalidate attribute required to render validation messages -->
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    <div class="row">
+      <div class="col-6">
+        {{ form.heritage_site_category|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        {{ form.country_area|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        {{ form.site_name|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        {{ form.description|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        {{ form.justification|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        {{ form.date_inscribed|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3">
+        {{ form.longitude|as_crispy_field }}
+      </div>
+      <div class="col-3">
+        {{ form.latitude|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        {{ form.area_hectares|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        {{ form.transboundary|as_crispy_field }}
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-outline-success">Add</button>
+    &nbsp;<a class="btn btn-outline-secondary" href="{% url 'site' %}">cancel</a>
+  </form>
+
+{% endblock content %}

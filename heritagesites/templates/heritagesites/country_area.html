@@ -6,15 +6,19 @@
       <header>
         <h2>Countries and Areas</h2>
       </header>
+
         {% include 'heritagesites/pagination.html' %}
+
         {% if countries %}
-          {% for country in countries %}
-            <div class="row">
-              <div class="col-sm-5">
-                <p><a href="{% url 'country_area_detail' country.pk %}">{{ country.country_area_name }}</a></p>
-              </div>
+          <div class="row">
+            <div class="col-sm-12">
+              {% for country in countries %}
+                <ul>
+                    <li><a href="{% url 'country_area_detail' country.pk %}">{{ country.country_area_name }}</a></li>
+                </ul>
+              {% endfor %}
             </div>
-          {% endfor %}
+          </div>
         {% else %}
           <p>No Heritage countries are available to view.</p>
         {% endif %}
@@ -24,4 +28,4 @@
     <a href="{% url 'login' %}">Log in</a>
   {% endif %}
 
-{% endblock content %}}
+{% endblock content %}
