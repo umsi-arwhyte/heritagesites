@@ -40,14 +40,31 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Local
+    'api.apps.ApiConfig',
     'heritagesites.apps.HeritagesitesConfig',
+
+    # Third-party
+    'corsheaders',
     'crispy_forms',
     'django_filters',
+    'rest_framework',
+    'rest_framework_swagger',
     'social_django',
     'test_without_migrations',
 ]
 
+# https://pypi.org/project/django-cors-headers/
+# CorsMiddleware should be placed as high as possible, especially before any middleware that can
+# generate responses such as Django’s CommonMiddleware or Whitenoise’s WhiteNoiseMiddleware.
+# If it is not before, it will not be able to add the CORS headers to these responses.
+# Also if you are using CORS_REPLACE_HTTPS_REFERER it should be placed before Django’s
+# CsrfViewMiddleware."
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,6 +74,24 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
+
+# A list of origin hostnames that are authorized to make cross-site HTTP requests.
+# The value 'null' can also appear in this list, and will match the Origin: null header
+# that is used in “privacy-sensitive contexts”, such as when the client is running from
+# a file:// domain. Defaults to [].
+CORS_ORIGIN_WHITELIEST = (
+    '127.0.0.1:3000/'
+)
+
+# Use Django's standard `django.contrib.auth` permissions, or allow read-only access for
+# unauthenticated users.
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 ROOT_URLCONF = 'mysite.urls'
 
