@@ -213,18 +213,14 @@ class SiteUpdateView(generic.UpdateView):
 		# site.date_updated = timezone.now()
 		site.save()
 
-		# Current country_area_id values linked to site
+		# If any existing country/areas are not in updated list, delete them
+		new_ids = []
 		old_ids = HeritageSiteJurisdiction.objects\
 			.values_list('country_area_id', flat=True)\
 			.filter(heritage_site_id=site.heritage_site_id)
 
 		# New countries list
 		new_countries = form.cleaned_data['country_area']
-
-		# TODO can these loops be refactored?
-
-		# New ids
-		new_ids = []
 
 		# Insert new unmatched country entries
 		for country in new_countries:

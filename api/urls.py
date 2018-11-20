@@ -1,8 +1,6 @@
-from django.urls import include, path, re_path
+from django.urls import include, path
 from rest_framework.documentation import include_docs_urls
-from rest_framework.renderers import CoreJSONRenderer, OpenAPIRenderer, JSONOpenAPIRenderer
 from rest_framework.routers import SimpleRouter
-from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.views import get_swagger_view
 from api.views import SiteViewSet
 

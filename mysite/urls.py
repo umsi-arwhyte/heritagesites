@@ -30,7 +30,9 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL},
          name='logout'),
     path('heritagesites/', include('heritagesites.urls')),
-    path('api/', include('api.urls'))
+    path('heritagesites/api/', include('api.urls')),
+    path('heritagesites/api/rest-auth/', include('rest_auth.urls')),
+    path('heritagesites/api/rest-auth/registration/', include('rest_auth.registration.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Use static() to add url mapping to serve static files during development (only)
