@@ -77,13 +77,6 @@ class HeritageSite(models.Model):
 		# return reverse('site_detail', args=[str(self.id)])
 		return reverse('site_detail', kwargs={'pk': self.pk})
 
-	# @property
-	# def jurisdictions(self):
-	# 	return HeritageSiteJurisdiction.objects\
-	# 		.values_list('country_area_id', flat=True)\
-	# 		.filter(heritage_site_id__exact=self.pk)\
-	# 		.order_by('country_area_id')
-
 	@property
 	def region_names(self):
 		"""
@@ -315,14 +308,6 @@ class Location(models.Model):
 			return self.planet.unsd_name
 		else:
 			return 'error'
-
-		''' Works but ugly
-		return '{}  {}  {}  {}'.format(
-			self.planet,
-			self.region if self.region else '',
-			self.sub_region if self.sub_region else '',
-			self.intermediate_region if self.intermediate_region else '')
-		'''
 
 
 class Planet(models.Model):
