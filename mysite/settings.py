@@ -18,6 +18,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
+# Required by django-allauth which uses the sites framework.
+SITE_ID = 1
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secrets.SECRET_KEY
 # SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
@@ -26,6 +29,11 @@ SECRET_KEY = secrets.SECRET_KEY
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+# Required by django-allauth
+# Hack setting that sends confirmation email to the console.
+# Reset if configuring an email server.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application definition
 
@@ -40,14 +48,38 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # Local
+    'api.apps.ApiConfig',
     'heritagesites.apps.HeritagesitesConfig',
+
+    # Third-party
+    'corsheaders',
     'crispy_forms',
     'django_filters',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_auth',
+    'rest_auth.registration',
+    'rest_framework_swagger',
     'social_django',
     'test_without_migrations',
 ]
 
+# https://pypi.org/project/django-cors-headers/
+# CorsMiddleware should be placed as high as possible, especially before any middleware that can
+# generate responses such as Django’s CommonMiddleware or Whitenoise’s WhiteNoiseMiddleware.
+# If it is not before, it will not be able to add the CORS headers to these responses.
+# Also if you are using CORS_REPLACE_HTTPS_REFERER it should be placed before Django’s
+# CsrfViewMiddleware."
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,6 +89,31 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
+
+# A list of origin hostnames that are authorized to make cross-site HTTP requests.
+# The value 'null' can also appear in this list, and will match the Origin: null header
+# that is used in “privacy-sensitive contexts”, such as when the client is running from
+# a file:// domain. Defaults to [].
+# Port 3000 is the default port for React apps.
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1:3000/'
+)
+
+# Use Django's standard `django.contrib.auth` permissions, or allow read-only access for
+# unauthenticated users.
+# Default Auth: Basic (retired in favor of TokenAuth)
+# Default Auth: SessionAuth (required by browsable API)
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 ROOT_URLCONF = 'mysite.urls'
 
