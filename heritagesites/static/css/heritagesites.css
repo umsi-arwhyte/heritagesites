@@ -45,19 +45,20 @@ nav {
  * Bootstrap Pagination
  */
 
-.pagination > li.page-item {
+.pagination .page-item {
     background-color: transparent;
     border: 1px solid #D8C3A5;
     color: #EAE7DC;
     font-size: 0.75rem;
-    /* line-height: 1rem; */
     text-decoration: none;
 }
 
-.pagination > li.page-item.active {
+.pagination .page-item.active span.page-link {
     background-color: #E85A4F;
+    border: 1px solid #D8C3A5;
     color: #EAE7DC;
-    /* padding: 0.25rem 0.75rem; */
+    font-size: 0.75rem;
+    text-decoration: none;
 }
 
 /*

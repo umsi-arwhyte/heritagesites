@@ -28,7 +28,10 @@
       </div>
     </div>
     <div class="col-sm-9">
-      {% for site in object_list %}
+
+      {% include 'heritagesites/pagination.html' %}
+
+      {% for site in site_list %}
         <h4><a href="{% url 'site_detail' site.pk %}">{{ site.site_name|safe }}</a></h4>
         {% if site.country_area_names %}
           <p>{{ site.country_area_names }}</p>

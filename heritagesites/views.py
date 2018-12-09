@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseRedirect
-from django.db.models import F
+from django.db.models import F, Q
 from django.shortcuts import redirect, render
 from django.views import generic
 from django.urls import reverse_lazy
@@ -175,23 +176,43 @@ class SiteDetailView(generic.DetailView):
 		return super().get_object()
 
 
-class SiteFilterView(FilterView):
+class PaginatedFilterView(generic.View):
+	"""
+	Creates a view mixin, which separates out default 'page' keyword and returns the
+	remaining querystring as a new template context variable.
+	https://stackoverflow.com/questions/51389848/how-can-i-use-pagination-with-django-filter
+	"""
+	def get_context_data(self, **kwargs):
+		context = super(PaginatedFilterView, self).get_context_data(**kwargs)
+		if self.request.GET:
+			querystring = self.request.GET.copy()
+			if self.request.GET.get('page'):
+				del querystring['page']
+			context['querystring'] = querystring.urlencode()
+		return context
+
+
+class SiteFilterView(PaginatedFilterView, FilterView):
+	model = HeritageSite
 	# form_class = SearchForm
 	filterset_class = HeritageSiteFilter
+	context_object_name = 'site_list'
 	template_name = 'heritagesites/site_filter.html'
-	# paginate_by = 50
+	paginate_by = 30
 
 
+'''
 class SiteListView(generic.ListView):
 	model = HeritageSite
 	context_object_name = 'sites'
 	template_name = 'heritagesites/site.html'
-	paginate_by = 50
+	paginate_by = 30
 
 	def get_queryset(self):
 		return HeritageSite.objects \
 			.select_related('heritage_site_category') \
 			.order_by('site_name')
+'''
 
 
 @method_decorator(login_required, name='dispatch')
