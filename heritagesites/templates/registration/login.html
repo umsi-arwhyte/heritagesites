@@ -3,7 +3,14 @@
 {% block content %}
 
   <header>
-    <h2>UNESCO Heritage Sites Login</h2>
+    <div class="row">
+      <div class="col-sm-11">
+        <h2>Login</h2>
+      </div>
+      <div class="col-xs-1">
+        <a class="btn btn-outline-secondary" href="{{request.META.HTTP_REFERER}}">back</a>
+      </div>
+    </div>
   </header>
 
   <p>Connect with a social network:</p>

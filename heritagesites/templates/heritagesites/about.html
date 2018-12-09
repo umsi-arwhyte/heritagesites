@@ -2,7 +2,16 @@
 
 {% block content %}
 
-<h2>About UNESCO Heritage Sites</h2>
+<header>
+  <div class="row">
+    <div class="col-sm-11">
+      <h2>About UNESCO Heritage Sites</h2>
+    </div>
+    <div class="col-xs-1">
+      <a class="btn btn-outline-secondary" href="{{request.META.HTTP_REFERER}}">back</a>
+    </div>
+  </div>
+</header>
 
 <p>This site combines UNSD M49 <a href="https://unstats.un.org/unsd/methodology/m49/"
                                   alt="UNSD M49 country codes">country codes</a>
