@@ -61,7 +61,11 @@ class HeritageSite(models.Model):
 	transboundary = models.IntegerField()
 
 	# Intermediate model (country_area -> heritage_site_jurisdiction <- heritage_site)
-	country_area = models.ManyToManyField(CountryArea, through='HeritageSiteJurisdiction')
+	countries = models.ManyToManyField(
+		CountryArea,
+		through='HeritageSiteJurisdiction',
+		related_name='sites'
+	)
 
 	class Meta:
 		managed = False
@@ -88,7 +92,7 @@ class HeritageSite(models.Model):
 		:return: string
 		"""
 		sort_order = ['location__region__region_name']
-		countries = self.country_area.select_related('location').order_by(*sort_order)
+		countries = self.countries.select_related('location').order_by(*sort_order)
 		# countries_sorted = sorted(countries, key=lambda o: o.location.region.region_name)
 
 		names = []
@@ -120,7 +124,7 @@ class HeritageSite(models.Model):
 		else:
 			sort_order = ['location__sub_region__sub_region_name']
 
-		countries = self.country_area.select_related('location').order_by(*sort_order)
+		countries = self.countries.select_related('location').order_by(*sort_order)
 
 		names = []
 		for country in countries:
@@ -152,7 +156,7 @@ class HeritageSite(models.Model):
 		else:
 			sort_order = ['location__intermediate_region__intermediate_region_name']
 
-		countries = self.country_area.select_related('location').order_by(*sort_order)
+		countries = self.countries.select_related('location').order_by(*sort_order)
 
 		names = []
 		for country in countries:
@@ -186,7 +190,7 @@ class HeritageSite(models.Model):
 		else:
 			sort_order = ['country_area_name']
 
-		countries = self.country_area.select_related('location').order_by(*sort_order)
+		countries = self.countries.select_related('location').order_by(*sort_order)
 
 		names = []
 		for country in countries:

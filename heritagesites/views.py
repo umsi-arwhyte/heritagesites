@@ -79,10 +79,10 @@ class OceaniaListView(generic.ListView):
 	def get_queryset(self):
 		return HeritageSite.objects \
 			.select_related('heritage_site_category') \
-			.filter(country_area__location__region__region_id=5) \
+			.filter(countries__location__region__region_id=5) \
 			.order_by(
-				'country_area__location__sub_region__sub_region_name',
-				'country_area__country_area_name',
+				'countries__location__sub_region__sub_region_name',
+				'countries__country_area_name',
 				'site_name'
 			)
 
@@ -114,7 +114,7 @@ class SiteCreateView(generic.View):
 		if form.is_valid():
 			site = form.save(commit=False)
 			site.save()
-			for country in form.cleaned_data['country_area']:
+			for country in form.cleaned_data['countries']:
 				HeritageSiteJurisdiction.objects.create(heritage_site=site, country_area=country)
 			return redirect(site) # shortcut to object's get_absolute_url()
 			# return HttpResponseRedirect(site.get_absolute_url())
@@ -136,7 +136,7 @@ class SiteCreateView(generic.CreateView):
 	def form_valid(self, form):
 		site = form.save(False)
 		site.save()
-		for country in form.cleaned_data['country_area']:
+		for country in form.cleaned_data['countries']:
 			HeritageSiteJurisdiction.objects.create(heritage_site=site, country_area=country)
 		return HttpResponseRedirect(site.get_absolute_url())
 		#return HttpResponseRedirect(self.get_success_url())
@@ -241,7 +241,7 @@ class SiteUpdateView(generic.UpdateView):
 			.filter(heritage_site_id=site.heritage_site_id)
 
 		# New countries list
-		new_countries = form.cleaned_data['country_area']
+		new_countries = form.cleaned_data['countries']
 
 		# Insert new unmatched country entries
 		for country in new_countries:
