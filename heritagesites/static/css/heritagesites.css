@@ -54,6 +54,7 @@ nav {
 }
 
 .pagination .page-item.active span.page-link {
+    z-index: 1;
     background-color: #E85A4F;
     border: 1px solid #D8C3A5;
     color: #EAE7DC;

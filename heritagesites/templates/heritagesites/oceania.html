@@ -24,12 +24,12 @@
 
     {% for site in sites %}
       <div class="row">
-        {% for country_area in site.country_area.all %}
+        {% for country in site.countries.all %}
           <div class="col-sm-3">
-              <p>{{ country_area.location.sub_region.sub_region_name }}</p>
+              <p>{{ country.location.sub_region.sub_region_name }}</p>
           </div>
           <div class="col-sm-4">
-            <p>{{ country_area.country_area_name }}</p>
+            <p>{{ country.country_area_name }}</p>
           </div>
         {% endfor %}
         <div class="col-sm-5">
