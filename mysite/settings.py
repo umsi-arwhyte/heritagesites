@@ -95,9 +95,12 @@ MIDDLEWARE = [
 # that is used in “privacy-sensitive contexts”, such as when the client is running from
 # a file:// domain. Defaults to [].
 # Port 3000 is the default port for React apps.
-CORS_ORIGIN_WHITELIST = (
-    '127.0.0.1:3000/'
-)
+
+# Changed from tuple to list (20200709)
+# See https://github.com/adamchainz/django-cors-headers/issues/403
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:3000'
+    ]
 
 # Use Django's standard `django.contrib.auth` permissions, or allow read-only access for
 # unauthenticated users.
@@ -155,7 +158,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'unesco_heritage_sites',
-        'USER': 'django',
+        'USER': 'arwhyte',
         'OPTIONS': {
             'read_default_file': '/etc/mysql/my.cnf',
         },
