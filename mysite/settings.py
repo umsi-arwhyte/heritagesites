@@ -155,7 +155,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'unesco_heritage_sites',
-        'USER': 'django',
+        'USER': 'arwhyte',
         'OPTIONS': {
             'read_default_file': '/etc/mysql/my.cnf',
         },
